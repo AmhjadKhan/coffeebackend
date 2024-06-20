@@ -3,7 +3,7 @@ const cors = require('cors')
 require('dotenv').config();
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const app = express()
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 // middlewars? 
 app.use(cors());
@@ -36,7 +36,12 @@ async function run() {
       const result = await coffeeCollection.insertOne(newCoffee);
       res.send(result);
   })
-
+    //  this is get request to find data 
+    app.get('/coffee', async (req, res) => {
+      const cursor = coffeeCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+  })
 
 
     // Send a ping to confirm a successful connection
@@ -51,7 +56,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('THIS IS COFFEE SERVER!')
 })
 
 app.listen(port, () => {
